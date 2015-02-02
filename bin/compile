@@ -7,7 +7,9 @@ set -e # fail fast
 BUILD_DIR=$1
 CACHE_DIR=$2
 BUILDPACK_NAME=cairo
-STACK=cedar-14
+STACK=cedar
+DISTRO=`lsb_release -a`
+KERNEL_VER=`uname -a`
 
 function indent() {
   c='s/^/       /'
@@ -20,7 +22,7 @@ function indent() {
 function vendor() {
   binary="$1"
   path="$2"
-
+  
   echo "Fetching $binary" | indent
   echo "mkdir -p $path" | indent
   mkdir -p $path 2>&1 | indent
@@ -43,8 +45,10 @@ function vendor() {
 
   export LD_LIBRARY_PATH="$path/lib:$LD_LIBRARY_PATH"
 }
+echo "Linux distro: $DISTRO" | indent
+echo "Linux kernel: $KERNEL_VER" | indent
 
-echo "-----> Vendoring binaries"
+echo "-----> Vendoring binaries" | indent
 vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/cairo-1.12.16-1.tar.gz"  "$BUILD_DIR/vendor/cairo"
 vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/freetype-2.5.3-1.tar.gz" "$BUILD_DIR/vendor/freetype"
 vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/giflib-4.2.3-1.tar.gz"   "$BUILD_DIR/vendor/giflib"
