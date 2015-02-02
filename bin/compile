@@ -21,7 +21,9 @@ function vendor() {
   path="$2"
 
   echo "Fetching $binary" | indent
+  echo "mkdir -p $path" | indent
   mkdir -p $path 2>&1 | indent
+  echo "curl $binary -s -o - | tar xz -C $path -f -" | indent
   curl $binary -s -o - | tar xz -C $path -f - 2>&1 | indent
 
   if [ -d "$path/bin" ]; then
