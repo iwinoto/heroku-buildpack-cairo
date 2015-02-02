@@ -21,8 +21,8 @@ function vendor() {
   path="$2"
 
   echo "Fetching $binary" | indent
-  mkdir -p $path
-  curl $binary -s -o - | tar xz -C $path -f -
+  mkdir -p $path 2>&1 | indent
+  curl $binary -s -o - | tar xz -C $path -f - 2>&1 | indent
 
   if [ -d "$path/bin" ]; then
     export PATH=$path/bin:$PATH
