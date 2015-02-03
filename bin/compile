@@ -67,7 +67,7 @@ function build(){
 	echo "------> Configure $package"
 	./configure --prefix=$target_dir
 	echo "------> Make install $package"
-	make install
+	make all install
 
 	ls -l $target_dir 2>&1
 }
