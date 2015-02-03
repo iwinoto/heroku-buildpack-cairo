@@ -64,8 +64,16 @@ function build(){
 	
 	curl $src -s -o - | tar x$tar_options -C $src_dir -f -
 	cd $src_dir/$package-*
+	# Don't build all docs - scatter gun fix for giflib wanting to build docs with xmlto which is not installed.
+	# Ref: http://osdir.com/ml/blfs-dev/2013-07/msg00145.html
+	if [ -e doc/Makefile.in ]
+	then
+		sed -i "s/all: allhtml/all:/" doc/Makefile.in
+	fi
+
 	echo "------> Configure $package"
 	./configure --prefix=$target_dir
+
 	echo "------> Make install $package"
 	make all install
 
