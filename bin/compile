@@ -75,7 +75,7 @@ function build(){
 	./configure --prefix=$target_dir
 
 	echo "------> Make install $package"
-	make all -k
+	make all
 	make install
 
 	if [ -d "$target_dir/bin" ]; then
@@ -90,8 +90,7 @@ function build(){
 	# standard paths
 	export CPPPATH="$target_dir/include:$CPPPATH"
 	export CPATH="$target_dir/include:$CPATH"
-	export LIBRARY_PATH="$target_dir/lib:$LIBRARY_PATH"
-	export 
+	export LIBRARY_PATH="$target_dir/lib:$LIBRARY_PATH" 
 	
 	export LD_LIBRARY_PATH="$target_dir/lib:$LD_LIBRARY_PATH"
 }
@@ -100,16 +99,15 @@ echo "Linux distro: $DISTRO" | indent
 echo "Linux kernel: $KERNEL_VER" | indent
 
 echo "-----> Vendoring binaries" | indent
-#vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/cairo-1.12.16-1.tar.gz"  "$BUILD_DIR/vendor/cairo"
-#vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/freetype-2.5.3-1.tar.gz" "$BUILD_DIR/vendor/freetype"
-#vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/giflib-4.2.3-1.tar.gz"   "$BUILD_DIR/vendor/giflib"
-#vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/pixman-0.32.6-1.tar.gz"  "$BUILD_DIR/vendor/pixman"
+vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/cairo-1.12.16-1.tar.gz"  "$BUILD_DIR/vendor/cairo"
+vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/freetype-2.5.3-1.tar.gz" "$BUILD_DIR/vendor/freetype"
+vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/giflib-4.2.3-1.tar.gz"   "$BUILD_DIR/vendor/giflib"
+vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/pixman-0.32.6-1.tar.gz"  "$BUILD_DIR/vendor/pixman"
 
-#build poppler "http://poppler.freedesktop.org/poppler-0.30.0.tar.xz" "$BUILD_DIR/vendor" J
-build pixman "http://cairographics.org/releases/pixman-se2goBro.6.tar.gz" "$BUILD_DIR/vendor" z
-build freetype " http://ftp.twaren.net/Unix/NonGNU//freetype/freetype-2.5.3.tar.gz" "$BUILD_DIR/vendor" z
-build giflib " http://ufpr.dl.sourceforge.net/project/giflib/giflib-4.x/giflib-4.2.3.tar.gz" "$BUILD_DIR/vendor" z
-build cairo "http://cairographics.org/releases/cairo-1.12.16.tar.xz" "$BUILD_DIR/vendor" J
+#build pixman "http://cairographics.org/releases/pixman-0.32.6.tar.gz" "$BUILD_DIR/vendor" z
+#build freetype " http://ftp.twaren.net/Unix/NonGNU//freetype/freetype-2.5.3.tar.gz" "$BUILD_DIR/vendor" z
+#build giflib " http://ufpr.dl.sourceforge.net/project/giflib/giflib-4.x/giflib-4.2.3.tar.gz" "$BUILD_DIR/vendor" z
+#build cairo "http://cairographics.org/releases/cairo-1.12.16.tar.xz" "$BUILD_DIR/vendor" J
 
 echo "-----> Tweaking Cairo, FreeType, and Pixman include paths"
 
