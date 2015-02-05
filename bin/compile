@@ -75,9 +75,25 @@ function build(){
 	./configure --prefix=$target_dir
 
 	echo "------> Make install $package"
-	make all install
+	make all -k
+	make install
 
-	ls -l $target_dir 2>&1
+	if [ -d "$target_dir/bin" ]; then
+		export PATH=$target_dir/bin:$PATH
+	fi
+	
+	if [ -d "$target_dir/lib/pkgconfig" ]; then
+		# pkg-config should handle compiler options (if used)
+		export PKG_CONFIG_PATH="$target_dir/lib/pkgconfig:$PKG_CONFIG_PATH"
+	fi
+
+	# standard paths
+	export CPPPATH="$target_dir/include:$CPPPATH"
+	export CPATH="$target_dir/include:$CPATH"
+	export LIBRARY_PATH="$target_dir/lib:$LIBRARY_PATH"
+	export 
+	
+	export LD_LIBRARY_PATH="$target_dir/lib:$LD_LIBRARY_PATH"
 }
 
 echo "Linux distro: $DISTRO" | indent
@@ -89,8 +105,8 @@ echo "-----> Vendoring binaries" | indent
 #vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/giflib-4.2.3-1.tar.gz"   "$BUILD_DIR/vendor/giflib"
 #vendor "https://s3.amazonaws.com/mojodna-heroku/$STACK/pixman-0.32.6-1.tar.gz"  "$BUILD_DIR/vendor/pixman"
 
-build poppler "http://poppler.freedesktop.org/poppler-0.30.0.tar.xz" "$BUILD_DIR/vendor" J
-build pixman "http://cairographics.org/releases/pixman-0.32.6.tar.gz" "$BUILD_DIR/vendor" z
+#build poppler "http://poppler.freedesktop.org/poppler-0.30.0.tar.xz" "$BUILD_DIR/vendor" J
+build pixman "http://cairographics.org/releases/pixman-se2goBro.6.tar.gz" "$BUILD_DIR/vendor" z
 build freetype " http://ftp.twaren.net/Unix/NonGNU//freetype/freetype-2.5.3.tar.gz" "$BUILD_DIR/vendor" z
 build giflib " http://ufpr.dl.sourceforge.net/project/giflib/giflib-4.x/giflib-4.2.3.tar.gz" "$BUILD_DIR/vendor" z
 build cairo "http://cairographics.org/releases/cairo-1.12.16.tar.xz" "$BUILD_DIR/vendor" J
