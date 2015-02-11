@@ -11,6 +11,12 @@ STACK=cedar
 DISTRO=`lsb_release -a`
 KERNEL_VER=`uname -a`
 
+echo " " | indent
+echo "dpkg --list  -- START" | indent
+echo `dpkg --list`
+echo "dpkg --list  -- END" | indent
+echo " " | indent
+
 function indent() {
   c='s/^/       /'
   case $(uname) in
