@@ -19,7 +19,6 @@ function indent() {
   esac
 }
 
-
 echo
 echo "dpkg --list  -- START" | indent
 echo `dpkg --list`
