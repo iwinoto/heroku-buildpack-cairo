@@ -19,6 +19,13 @@ function indent() {
   esac
 }
 
+
+echo
+echo "dpkg --list  -- START" | indent
+echo `dpkg --list`
+echo "dpkg --list  -- END" | indent
+echo " " | indent
+
 function vendor() {
   binary="$1"
   path="$2"
